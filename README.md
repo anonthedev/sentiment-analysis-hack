@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sentiora
 
-## Getting Started
+## A Customer Sentiment Analysis Tool
 
-First, run the development server:
+![Sentiora](image.jpg)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Description
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Building a Customer Sentiment Analysis Tool for businesses that analyzes customer feedback from surveys, reviews, and other text-based data to extract insights about customer sentiment.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Problem We Are Solving
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Overwhelming Volume:** For businesses with a large customer base, the sheer number of reviews can be overwhelming, making it difficult to analyze each one.
 
-## Learn More
+2. **Time Constraints:** Business owners often have limited time to dedicate to reading and understanding all customer feedback due to other priorities.
 
-To learn more about Next.js, take a look at the following resources:
+3. **Difficulty Identifying Trends:** Without proper tools or analysis, it’s challenging to identify patterns, recurring issues, or trends from scattered reviews.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Understanding Sentiment:** Reviews often vary in tone, and it can be hard to gauge overall customer sentiment without advanced tools.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Built With
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Azure](https://azure.microsoft.com/en-gb/)
+- [Nextjs](https://nextjs.org/)
+- [Shadcn](https://ui.shadcn.com/)
+- [tailwindcss](https://tailwindcss.com/)
