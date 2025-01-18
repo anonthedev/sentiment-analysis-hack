@@ -129,31 +129,33 @@ export default function ReviewInput() {
       console.log(formattedData);
       localStorage.setItem("reviews", JSON.stringify(formattedData))
       setProceed(true);
-      // const token = await getToken({ template: "supabase" });
+      const token = await getToken({ template: "supabase" });
 
-      // const resp = await axios.post(`/api/add-reviews?userId=${userId}`, formattedData, {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //       "Content-Type": "application/json",
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log(res.status);
-      //     if (res.status === 200) {
-      //       console.log(res.data.message);
-      //       // toast({ title: res.data.message, variant: "success" });
-      //     } else {
-      //       // toast({ title: "Something went wrong", variant: "destructive" });
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err.response.data.error);
-      //     // toast({
-      //     //   title: "Something went wrong",
-      //     //   description: err.response.data.error,
-      //     //   variant: "destructive",
-      //     // });
-      //   });
+      const resp = await axios.post(`/api/add-reviews?userId=${userId}`, formattedData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res.status);
+          if (res.status === 200) {
+            console.log(res.data.message);
+            // toast({ title: res.data.message, variant: "success" });
+          } else {
+            // toast({ title: "Something went wrong", variant: "destructive" });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          // toast({
+          //   title: "Something went wrong",
+          //   description: err.response.data.error,
+          //   variant: "destructive",
+          // });
+        });
+
+        console.log(resp)
     }
   }
 

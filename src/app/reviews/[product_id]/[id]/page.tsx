@@ -8,51 +8,17 @@ import SentenceAnalysis from '@/components/Sentiments/SentenceAnalysis'
 import TargetSummary from '@/components/Sentiments/TargetSummary'
 import axios from "axios"
 import { useEffect, useState } from "react"
-
-// const sampleData = {
-//   documentText: "The food and service were unacceptable. The concierge was nice, however.",
-//   overallSentiment: "mixed",
-//   sentimentConfidenceScores: { positive: 0.3, neutral: 0.17, negative: 0.52 },
-//   sentences: [
-//     {
-//       sentiment: "negative",
-//       confidenceScores: { positive: 0, neutral: 0, negative: 1 },
-//       minedOpinions: [
-//         {
-//           targetText: "food",
-//           targetSentiment: "negative",
-//           targetConfidenceScores: { positive: 0.01, negative: 0.99 },
-//           targetAssessments: [{ text: "unacceptable", sentiment: "negative" }]
-//         },
-//         {
-//           targetText: "service",
-//           targetSentiment: "negative",
-//           targetConfidenceScores: { positive: 0.01, negative: 0.99 },
-//           targetAssessments: [{ text: "unacceptable", sentiment: "negative" }]
-//         }
-//       ]
-//     },
-//     {
-//       sentiment: "positive",
-//       confidenceScores: { positive: 0.61, neutral: 0.35, negative: 0.05 },
-//       minedOpinions: [
-//         {
-//           targetText: "concierge",
-//           targetSentiment: "positive",
-//           targetConfidenceScores: { positive: 1, negative: 0 },
-//           targetAssessments: [{ text: "nice", sentiment: "positive" }]
-//         }
-//       ]
-//     }
-//   ]
-// }
+import { usePathname } from "next/navigation"
 
 export default function Dashboard({ params }: { params: { id: string } }) {
   const [sentiments, setSentiments] = useState<any>()
   const reviewData = JSON.parse(window.localStorage.getItem("reviews")!);
   const {id} = params
-  const review  = reviewData[0].objects.find((review: any) => review.review_id === id);
-  // console.log(reviewData[0].objects)
+  const pathname = usePathname()
+  const reviewOf = reviewData.find((reviewObj: any)=>reviewObj.product_id == pathname.split("/")[2])
+  const review  = reviewOf.objects.find((review: any) => review.review_id === id);
+  // console.log()
+  // console.log(reviewData)
 
   console.log(review)
 

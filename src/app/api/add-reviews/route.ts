@@ -1,6 +1,10 @@
 import { supabaseClient } from "@/lib/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(){
+    return NextResponse.json({message: "Hello World"});
+}
+
 export async function POST(req: NextRequest) {
   const userId = req.nextUrl.searchParams.get("userId");
   const body = await req.json();
@@ -20,24 +24,24 @@ export async function POST(req: NextRequest) {
 
   console.log(body)
 
-//   const { data, error } = await supabase
-//     .from("reviews")
-//     .insert([
-//         { ...body, user_id: userId }
-//     ])
-//     .select();
+  const { data, error } = await supabase
+    .from("reviews")
+    .insert([
+        { ...body, user_id: userId }
+    ])
+    .select();
 
-//   if (data) {
-//     console.log(data);
-//     return NextResponse.json(
-//       { message: "Reviews added successfully" },
-//       { status: 200 }
-//     );
-//   } else {
-//     console.log(error);
-//     return NextResponse.json(
-//       { message: "Reviews added failed" },
-//       { status: 500 }
-//     );
-//   }
+  if (data) {
+    console.log(data);
+    return NextResponse.json(
+      { message: "Reviews added successfully" },
+      { status: 200 }
+    );
+  } else {
+    console.log(error);
+    return NextResponse.json(
+      { message: "Reviews added failed" },
+      { status: 500 }
+    );
+  }
 }
