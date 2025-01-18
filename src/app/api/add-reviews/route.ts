@@ -5,7 +5,7 @@ export async function GET(){
     return NextResponse.json({message: "Hello World"});
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, res: NextResponse) {
   const userId = req.nextUrl.searchParams.get("userId");
   const body = await req.json();
   const authHeader = req.headers.get("Authorization");

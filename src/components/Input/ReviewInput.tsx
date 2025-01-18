@@ -21,6 +21,7 @@ import Link from "next/link";
 import Papa from "papaparse";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
+import { supabaseClient } from "@/lib/supabase";
 
 type ColumnMapping = {
   originalName: string;
@@ -37,7 +38,7 @@ export default function ReviewInput() {
   const [proceed, setProceed] = useState(false);
   const { getToken, userId } = useAuth();
 
-  const { reviewData, updateReviewData } = useReviewData((state: any) => state);
+  // const { reviewData, updateReviewData } = useReviewData((state: any) => state);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -126,36 +127,61 @@ export default function ReviewInput() {
   async function addToLib() {
     if (jsonData) {
       const formattedData = flatMapByProductID(jsonData);
-      console.log(formattedData);
       localStorage.setItem("reviews", JSON.stringify(formattedData))
       setProceed(true);
       const token = await getToken({ template: "supabase" });
+      const supabase = await supabaseClient(token!);
 
-      const resp = await axios.post(`/api/add-reviews?userId=${userId}`, formattedData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          console.log(res.status);
-          if (res.status === 200) {
-            console.log(res.data.message);
-            // toast({ title: res.data.message, variant: "success" });
-          } else {
-            // toast({ title: "Something went wrong", variant: "destructive" });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          // toast({
-          //   title: "Something went wrong",
-          //   description: err.response.data.error,
-          //   variant: "destructive",
-          // });
-        });
+      let parsedJSONData = JSON.parse(jsonData);
 
-        console.log(resp)
+     parsedJSONData.forEach(async (entry: any) => {
+      entry.user_id = userId
+     })
+
+      const { data, error } = await supabase
+          .from("reviews")
+          .insert(parsedJSONData)
+          .select();
+      
+        if (data) {
+          console.log(data);
+          // return NextResponse.json(
+          //   { message: "Reviews added successfully" },
+          //   { status: 200 }
+          // );
+        } else {
+          console.log(error);
+          // return NextResponse.json(
+          //   { message: "Reviews added failed" },
+          //   { status: 500 }
+          // );
+        }
+
+      // const resp = await axios.post(`/api/add-reviews?userId=${userId}`, formattedData, {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       "Content-Type": "application/json",
+      //     },
+      //   })
+      //   .then((res) => {
+      //     console.log(res.status);
+      //     if (res.status === 200) {
+      //       console.log(res.data.message);
+      //       // toast({ title: res.data.message, variant: "success" });
+      //     } else {
+      //       // toast({ title: "Something went wrong", variant: "destructive" });
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     // toast({
+      //     //   title: "Something went wrong",
+      //     //   description: err.response.data.error,
+      //     //   variant: "destructive",
+      //     // });
+      //   });
+
+        // console.log(resp)
     }
   }
 
