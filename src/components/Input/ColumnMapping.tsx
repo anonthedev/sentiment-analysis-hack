@@ -14,12 +14,12 @@ type ColumnMappingFormProps = {
 }
 
 const DATA_TYPES = [
-  'customer_id',
+  'review_by',
   'product_id',
-  'review_text',
+  'product_name',
+  'review',
   'rating',
-  'date',
-  'other'
+  'review_id'
 ]
 
 export default function ColumnMappingForm({ onMappingComplete }: ColumnMappingFormProps) {

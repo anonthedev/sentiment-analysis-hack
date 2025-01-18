@@ -47,11 +47,17 @@ import { useEffect, useState } from "react"
 //   ]
 // }
 
-export default function Dashboard() {
+export default function Dashboard({ params }: { params: { id: string } }) {
   const [sentiments, setSentiments] = useState<any>()
+  const reviewData = JSON.parse(window.localStorage.getItem("reviews")!);
+  const {id} = params
+  const review  = reviewData[0].objects.find((review: any) => review.review_id === id);
+  // console.log(reviewData[0].objects)
+
+  console.log(review)
 
   async function getSentiments(){
-   const sentiments = await axios.get(`/api/sentiment`)
+   const sentiments = await axios.post(`/api/sentiment`, [{text: review.review, id: review.review_id, language:"en"}])
    console.log(sentiments.data.sentiment[0])
    setSentiments(sentiments.data.sentiment[0])
   }
@@ -68,6 +74,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader>
               <CardTitle>Review</CardTitle>
+              <p className="max-h-[100px] overflow-y-auto">{review.review}</p>
             </CardHeader>
             <CardContent>
               <p>{sentiments.text}</p>

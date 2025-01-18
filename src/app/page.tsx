@@ -1,7 +1,8 @@
+import landingHTML from '../components/Landing.html';
+
 export default function Home() {
   return (
-    <div className="">
-      
-    </div>
+    <main dangerouslySetInnerHTML={{ __html: landingHTML }}>
+    </main>
   );
 }

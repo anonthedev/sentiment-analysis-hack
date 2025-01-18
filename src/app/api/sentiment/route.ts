@@ -4,22 +4,24 @@ import {
   AzureKeyCredential,
 } from "@azure/ai-language-text";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   const azure_key = process.env.AZURE_KEY_1;
   const endpoint = process.env.ENDPOINT;
-  const documents = [
-    {
-      text: "The keys aren't exactly like Cherry - there's some feel to them and not clicky, so it's good balance between being tactile and quiet. Neither, but not too much of either. Brightness even at lowest setting is too bright for me. Also the keycaps are transparent, which means if the LEDs go out you're effectively blind. I like to keep the lights off 90% of the time and translucent keycaps help there, but this keyboard doesn't have that option. And there's no memory, so every time you power up the brightness setting has to be tweaked (always down to minimum for me). Hopefully it lasts a bit more than my HP GK100s, both of which died after the warranty period was over. I think they feed that into the keyboard.",
-      id: "0",
-      language: "en",
-    },
-  ];
+  const body = await req.json();
+  // console.log(body)
+  // const documents = [
+  //   {
+  //     text: "The keys aren't exactly like Cherry - there's some feel to them and not clicky, so it's good balance between being tactile and quiet. Neither, but not too much of either. Brightness even at lowest setting is too bright for me. Also the keycaps are transparent, which means if the LEDs go out you're effectively blind. I like to keep the lights off 90% of the time and translucent keycaps help there, but this keyboard doesn't have that option. And there's no memory, so every time you power up the brightness setting has to be tweaked (always down to minimum for me). Hopefully it lasts a bit more than my HP GK100s, both of which died after the warranty period was over. I think they feed that into the keyboard.",
+  //     id: "0",
+  //     language: "en",
+  //   },
+  // ];
 
   const client = new TextAnalysisClient(
     endpoint!,
     new AzureKeyCredential(azure_key!)
   );
-  const results = await client.analyze("SentimentAnalysis", documents, {
+  const results = await client.analyze("SentimentAnalysis", body.slice(0,9), {
     includeOpinionMining: true,
   });
 
