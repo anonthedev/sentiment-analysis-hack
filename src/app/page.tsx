@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error
 import landingHTML from '../components/Landing.html';
 
 export default function Home() {
