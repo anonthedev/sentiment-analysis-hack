@@ -1,17 +1,32 @@
 "use client"
-
 import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Calendar, User } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 import { supabaseClient } from "@/lib/supabase";
 import { useEffect, useState } from "react";
+import axios from "axios";
+
+const ConfidenceBar = ({ score, label, color }:{ score: number, label: string, color: string }) => (
+  <div className="flex items-center gap-2 text-sm">
+    <span className="w-16 text-muted-foreground">{label}</span>
+    <div className="flex-1 bg-gray-200 rounded-full h-2">
+      <div 
+        className={`h-full rounded-full ${color}`}
+        style={{ width: `${score * 100}%` }}
+      />
+    </div>
+    <span className="w-12 text-right text-muted-foreground">
+      {(score * 100).toFixed(0)}%
+    </span>
+  </div>
+);
 
 export function ReviewList({ product_id }: any) {
- 
   const [reviews, setReviews] = useState<any>(null)
-
+  const [sentiments, setSentiments] = useState<any>(null)
   const { getToken, userId, isSignedIn, isLoaded } = useAuth();
+
   async function getProductReviews() {
     const token = await getToken({ template: "supabase" });
     const supabase = await supabaseClient(token!);
@@ -20,15 +35,20 @@ export function ReviewList({ product_id }: any) {
       .select("*")
       .eq("user_id", userId)
       .eq("product_id", product_id);
-
     if (reviews) {
       console.log(reviews)
       setReviews(reviews)
-    } else{
+    } else {
       console.log(error)
     }
   }
 
+  async function getReviewSentiments(){
+    const review_f = reviews.flatMap((review: any) => ({text: review.review, id: review.review_id, language: "en"}));
+    const resp = await axios.post(`/api/sentiment`, review_f)
+    // console.log(resp.data)
+    setSentiments(resp.data)
+  }
 
   useEffect(() => {
     if (isSignedIn && isLoaded) {
@@ -36,13 +56,26 @@ export function ReviewList({ product_id }: any) {
     }
   }, [isSignedIn, isLoaded]);
 
-  if (reviews) {
-    return (
-      <div className="py-6 grid grid-cols-2 gap-4 items-center">
-        {reviews.map((review: any) => (
-          <Link 
-            className="max-w-prose transition-transform duration-200 hover:scale-102" 
-            key={review.review_id} 
+  useEffect(()=>{
+    if (reviews) {
+      getReviewSentiments()
+    }
+  }, [reviews])
+
+  if (!reviews || !sentiments) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <div className="py-6 grid grid-cols-2 gap-4 items-center">
+      {reviews.map((review: any) => {
+        const reviewSentiment = sentiments.sentiment.find((s: any) => s.id === review.review_id);
+        const confidenceScores = reviewSentiment?.confidenceScores || { positive: 0, neutral: 0, negative: 0 };
+        
+        return (
+          <Link
+            className="max-w-prose transition-transform duration-200 hover:scale-102"
+            key={review.review_id}
             href={`/reviews/${product_id}/${review.review_id}`}
           >
             <Card className="hover:shadow-lg transition-all duration-200 hover:bg-muted/50 border-2">
@@ -64,15 +97,32 @@ export function ReviewList({ product_id }: any) {
                   </div>
                 </div>
               </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="text-sm font-medium mb-2">
+                  Sentiment: {reviewSentiment?.sentiment || 'No sentiment available'}
+                </div>
+                <ConfidenceBar 
+                  score={confidenceScores.positive}
+                  label="Positive"
+                  color="bg-green-500"
+                />
+                <ConfidenceBar 
+                  score={confidenceScores.neutral}
+                  label="Neutral"
+                  color="bg-gray-500"
+                />
+                <ConfidenceBar 
+                  score={confidenceScores.negative}
+                  label="Negative"
+                  color="bg-red-500"
+                />
+              </CardContent>
             </Card>
           </Link>
-        ))}
-      </div>
-    );
-  }else{
-    <div>Loading...</div>
-  }
-  
+        );
+      })}
+    </div>
+  );
 }
 
 export default ReviewList;

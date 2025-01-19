@@ -145,16 +145,8 @@ export default function ReviewInput() {
       
         if (data) {
           console.log(data);
-          // return NextResponse.json(
-          //   { message: "Reviews added successfully" },
-          //   { status: 200 }
-          // );
         } else {
           console.log(error);
-          // return NextResponse.json(
-          //   { message: "Reviews added failed" },
-          //   { status: 500 }
-          // );
         }
 
       // const resp = await axios.post(`/api/add-reviews?userId=${userId}`, formattedData, {
