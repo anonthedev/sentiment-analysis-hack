@@ -1,3 +1,4 @@
+// @ts-ignore
 import landingHTML from '../components/Landing.html';
 
 export default function Home() {
