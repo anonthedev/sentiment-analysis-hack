@@ -45,8 +45,7 @@ export function ReviewList({ product_id }: any) {
 
   async function getReviewSentiments(){
     const review_f = reviews.flatMap((review: any) => ({text: review.review, id: review.review_id, language: "en"}));
-    const resp = await axios.post(`/api/sentiment`, review_f)
-    // console.log(resp.data)
+    const resp = await axios.post(`/api/sentiment`, review_f.slice(0,9))
     setSentiments(resp.data)
   }
 
