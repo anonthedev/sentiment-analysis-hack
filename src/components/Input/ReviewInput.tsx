@@ -71,7 +71,7 @@ export default function ReviewInput() {
     if (!csvData) return;
 
     Papa.parse(csvData, {
-      header: true, // Automatically parse the first row as headers
+      header: true,
       skipEmptyLines: true,
       complete: (result: any) => {
         const parsedData = result.data as Record<string, string>[];
