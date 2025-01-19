@@ -19,7 +19,7 @@ import { supabaseClient } from "@/lib/supabase";
 export default function Dashboard({ params }: { params: Promise<{ id: string }> }) {
   const [sentiments, setSentiments] = useState<any>();
   const { id } = use(params);
-  // @ts-ignore
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [review, setReview] = useState<any>();
   const { getToken, userId, isSignedIn, isLoaded } = useAuth();
   async function getReview() {

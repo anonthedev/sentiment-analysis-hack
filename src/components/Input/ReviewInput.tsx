@@ -133,7 +133,7 @@ export default function ReviewInput() {
       const token = await getToken({ template: "supabase" });
       const supabase = await supabaseClient(token!);
 
-      let parsedJSONData = JSON.parse(jsonData);
+      const parsedJSONData = JSON.parse(jsonData);
 
      parsedJSONData.forEach(async (entry: any) => {
       entry.user_id = userId
