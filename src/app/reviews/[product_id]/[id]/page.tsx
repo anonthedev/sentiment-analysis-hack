@@ -3,7 +3,6 @@
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -14,13 +13,13 @@ import SentenceAnalysis from "@/components/Sentiments/SentenceAnalysis";
 import TargetSummary from "@/components/Sentiments/TargetSummary";
 import axios from "axios";
 import { use, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import { supabaseClient } from "@/lib/supabase";
 
 export default function Dashboard({ params }: { params: Promise<{ id: string }> }) {
   const [sentiments, setSentiments] = useState<any>();
   const { id } = use(params);
+  // @ts-ignore
   const [review, setReview] = useState<any>();
   const { getToken, userId, isSignedIn, isLoaded } = useAuth();
   async function getReview() {

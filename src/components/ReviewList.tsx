@@ -1,7 +1,10 @@
 "use client"
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Calendar, User } from "lucide-react";
+import { User } from "lucide-react";
 import { useAuth } from "@clerk/nextjs";
 import { supabaseClient } from "@/lib/supabase";
 import { useEffect, useState } from "react";

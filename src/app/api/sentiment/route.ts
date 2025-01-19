@@ -4,11 +4,10 @@ import {
   AzureKeyCredential,
 } from "@azure/ai-language-text";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const azure_key = process.env.AZURE_KEY_1;
   const endpoint = process.env.ENDPOINT;
   const body = await req.json();
-  // console.log(body)
 
   const client = new TextAnalysisClient(
     endpoint!,

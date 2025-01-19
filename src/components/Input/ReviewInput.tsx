@@ -16,11 +16,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Upload } from "lucide-react";
 import ColumnMappingForm from "@/components/Input/ColumnMapping";
-import { useReviewData } from "@/zustand/state";
+// import { useReviewData } from "@/zustand/state";
 import Link from "next/link";
 import Papa from "papaparse";
 import { useAuth } from "@clerk/nextjs";
-import axios from "axios";
+// import axios from "axios";
 import { supabaseClient } from "@/lib/supabase";
 
 type ColumnMapping = {
@@ -29,12 +29,13 @@ type ColumnMapping = {
 };
 
 export default function ReviewInput() {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [csvData, setCSVData] = useState<string | null>(null);
   const [fileName, setFileName] = useState("");
   const [importing, setImporting] = useState(false);
   const [showMapping, setShowMapping] = useState(false);
   const [jsonData, setJsonData] = useState<string | null>(null);
-  const [formattedJSON, setFormattedJSON] = useState<any>(null);
+  // const [formattedJSON, setFormattedJSON] = useState<any>(null);
   const [proceed, setProceed] = useState(false);
   const { getToken, userId } = useAuth();
 

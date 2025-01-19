@@ -40,6 +40,7 @@ const ConfidenceBar = ({
 );
 
 export default function Page() {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const [reviewData, setReviewData] = useState<any>(null);
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
   const [targetSummary, setTargetSummary] = useState<any[]>([]);

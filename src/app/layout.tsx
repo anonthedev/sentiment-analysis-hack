@@ -10,7 +10,7 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Sentiora - Customer Sentiment Analysis Tool",
   description:
     "Sentiora is an advanced customer sentiment analysis tool. Upload reviews in CSV format and get detailed sentiment insights to understand your customers better.",
